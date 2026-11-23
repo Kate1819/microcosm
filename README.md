@@ -21,3 +21,7 @@ There are 27 small discoveries to collect and no wrong answers.
 The model is a human (animal) cell with nine parts: membrane, nucleus, rough and smooth ER, Golgi, mitochondria, lysosomes, ribosomes and the centrosome. Parts are not drawn to scale. The vital-sign meters are a simplified picture of how the parts depend on each other.
 
 Everything is one `index.html` file. The 3D scene uses three.js, and the music and sound effects are generated in the browser, so there are no audio files.
+
+---
+
+© 2026 Kate. All rights reserved. This code may not be copied, changed or reused without permission. See [LICENSE](LICENSE).
