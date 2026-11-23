@@ -811,6 +811,27 @@ function frame(){
 paintCurio();
 requestAnimationFrame(frame);
 window.__mc = {select, tryIt, toggleOut, insts, vit, cam, camera, Sound};
+/* ---------- auto-save: remember how you arranged your cell ---------- */
+const LS_CELL = 'microcosm.cell';
+let cellSnap = '';
+function saveCell(){
+  const t = insts.map(i => i.target.distanceTo(i.home) < .05 ? 0 : [+i.target.x.toFixed(2), +i.target.y.toFixed(2), +i.target.z.toFixed(2)]);
+  const snap = JSON.stringify({apart, t});
+  if (snap === cellSnap) return; cellSnap = snap;
+  try { if (t.every(x => x === 0) && !apart) localStorage.removeItem(LS_CELL); else localStorage.setItem(LS_CELL, snap); } catch(e){}
+}
+try {
+  const c = JSON.parse(localStorage.getItem(LS_CELL));
+  if (c && Array.isArray(c.t) && c.t.length === insts.length){
+    c.t.forEach((p, k) => { if (p) { insts[k].target.set(p[0], p[1], p[2]); insts[k].cur.copy(insts[k].target); insts[k].obj.position.copy(insts[k].target); } });
+    apart = !!c.apart; syncApart(); cellSnap = JSON.stringify(c);
+  }
+} catch(e){}
+setInterval(saveCell, 3000);
+document.addEventListener('visibilitychange', () => { if (document.hidden) { saveCell(); saveDisc(); } });
+addEventListener('pagehide', () => { saveCell(); saveDisc(); });
+{ const n = ORDER.filter(k => disc[k].met).length; if (n) $('#enter').textContent = 'Step back inside'; }
+
 })();
 </script>
 </body>
